@@ -61,6 +61,7 @@ $balance  = $_SESSION['balance']  ?? $_COOKIE['user_balance'] ?? '0.00';
         <a href="logout.php" class="btn btn-outline">Odjava</a>
     </div>
 
+        <!-- ❌ RANJIVOST: Session detalji vidljivi u HTML-u (za demo) -->
     <div class="session-info">
         <strong>Debug informacije (namerno izpostavljeno):</strong><br>
         ID seje: <code><?= session_id() ?></code><br>
