@@ -23,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['username'] = $row['username'];
         $_SESSION['balance']  = $row['balance'];
 
-        // ❌ RANJIVOST: Cookie bez Secure, bez HttpOnly, bez SameSite
         setcookie('session_user', $row['username'], [
             'expires'  => time() + 86400,
             'path'     => '/',
@@ -32,18 +31,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'samesite' => 'None',  // ❌ nema zaštite
         ]);
 
-        // ❌ RANJIVOST: Osjetljivi podaci u cookie-u
         setcookie('user_balance', $row['balance'], time() + 86400, '/');
 
         header('Location: dashboard.php');
         exit;
     } else {
-        $error = 'Pogrešni podaci.';
+        $error = 'Napačni podatki.';
     }
 }
 ?>
 <!DOCTYPE html>
-<html lang="hr">
+<html lang="sl">
 <head>
     <meta charset="UTF-8">
     <title>MyBank – Prijava</title>
@@ -66,24 +64,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <div class="card">
     <div class="logo">My<span>Bank</span></div>
-    <div class="subtitle">Prijavite se u vaš račun</div>
+    <div class="subtitle">Prijavite se v vaš račun</div>
 
     <?php if ($error): ?>
         <div class="error"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
 
     <form method="POST" action="login.php">
-        <label>Korisničko ime</label>
+        <label>Uporabniško ime</label>
         <input type="text" name="username" placeholder="npr. alice" autocomplete="off">
 
-        <label>Lozinka</label>
+        <label>Geslo</label>
         <input type="password" name="password">
 
         <button type="submit">Prijava</button>
     </form>
 
     <div class="warning">
-        ⚠ HTTP veza — podaci se prenose nekriptirani
+        ⚠ HTTP povezava — podatki se prenašajo nešifrirani
     </div>
 </div>
 </body>

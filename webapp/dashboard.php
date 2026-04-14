@@ -7,14 +7,14 @@ if (!isset($_SESSION['user_id']) && !isset($_COOKIE['session_user'])) {
     exit;
 }
 
-$username = $_SESSION['username'] ?? $_COOKIE['session_user'] ?? 'Nepoznat';
+$username = $_SESSION['username'] ?? $_COOKIE['session_user'] ?? 'Neznan';
 $balance  = $_SESSION['balance']  ?? $_COOKIE['user_balance'] ?? '0.00';
 ?>
 <!DOCTYPE html>
-<html lang="hr">
+<html lang="sl">
 <head>
     <meta charset="UTF-8">
-    <title>MyBank – Dashboard</title>
+    <title>MyBank – Nadzorna plošča</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: system-ui, sans-serif; background: #f5f5f5; }
@@ -43,30 +43,29 @@ $balance  = $_SESSION['balance']  ?? $_COOKIE['user_balance'] ?? '0.00';
     <a href="logout.php">Odjava</a>
 </nav>
 <div class="main">
-    <div class="welcome">Dobro došli, <?= htmlspecialchars($username) ?></div>
+    <div class="welcome">Dobrodošli, <?= htmlspecialchars($username) ?></div>
 
     <div class="cards">
         <div class="card">
-            <div class="card-label">Stanje računa</div>
+            <div class="card-label">Stanje na računu</div>
             <div class="card-value money">€<?= number_format((float)$balance, 2) ?></div>
         </div>
         <div class="card">
-            <div class="card-label">Session ID</div>
+            <div class="card-label">ID seje (Session ID)</div>
             <div class="card-value" style="font-size:14px;font-family:monospace;word-break:break-all"><?= session_id() ?></div>
         </div>
     </div>
 
     <div class="actions">
-        <a href="transfer.php" class="btn btn-primary">Uplata / Isplata</a>
+        <a href="transfer.php" class="btn btn-primary">Plačilo / Dvig</a>
         <a href="logout.php" class="btn btn-outline">Odjava</a>
     </div>
 
-    <!-- ❌ RANJIVOST: Session detalji vidljivi u HTML-u (za demo) -->
     <div class="session-info">
-        <strong>Debug info (namjerno izloženo):</strong><br>
-        Session ID: <code><?= session_id() ?></code><br>
-        Cookie: <code>session_user=<?= $_COOKIE['session_user'] ?? 'nije postavljen' ?></code><br>
-        Balance cookie: <code>user_balance=<?= $_COOKIE['user_balance'] ?? 'nije postavljen' ?></code>
+        <strong>Debug informacije (namerno izpostavljeno):</strong><br>
+        ID seje: <code><?= session_id() ?></code><br>
+        Piškotek (Cookie): <code>session_user=<?= $_COOKIE['session_user'] ?? 'ni nastavljen' ?></code><br>
+        Piškotek stanja: <code>user_balance=<?= $_COOKIE['user_balance'] ?? 'ni nastavljen' ?></code>
     </div>
 </div>
 </body>
