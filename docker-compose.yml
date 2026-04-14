@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  web:
+    build: ./webapp
+    container_name: vulnerable-web
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    networks:
+      mitm-net:
+        ipv4_address: 172.20.0.10
+    environment:
+      - DB_HOST=172.20.0.20
+      - DB_USER=root
+      - DB_PASS=root
+      - DB_NAME=bankapp
+
+  db:
+    image: mysql:5.7
+    container_name: vulnerable-db
+    networks:
+      mitm-net:
+        ipv4_address: 172.20.0.20
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bankapp
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  attacker:
+    build: ./attacker
+    container_name: attacker-tools
+    networks:
+      mitm-net:
+        ipv4_address: 172.20.0.99
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    tty: true
+    stdin_open: true
+
+networks:
+  mitm-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
