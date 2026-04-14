@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['username'] = $row['username'];
         $_SESSION['balance']  = $row['balance'];
 
+        // ❌ RANJIVOST: Cookie bez Secure, bez HttpOnly, bez SameSite
         setcookie('session_user', $row['username'], [
             'expires'  => time() + 86400,
             'path'     => '/',
@@ -31,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'samesite' => 'None',  // ❌ nema zaštite
         ]);
 
+        // ❌ RANJIVOST: Osjetljivi podaci u cookie-u
         setcookie('user_balance', $row['balance'], time() + 86400, '/');
 
         header('Location: dashboard.php');
