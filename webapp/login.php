@@ -14,9 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = db();
     // ❌ RANJIVOST: SQL injection moguć (namjerno)
     $result = $db->query("SELECT * FROM users WHERE username='$user' AND password='$pass'");
+    $row = $result ? $result->fetch(PDO::FETCH_ASSOC) : null;
 
-    if ($result && $result->num_rows > 0) {
-        $row = $result->fetch_assoc();
+    if ($row) {
 
         // ❌ RANJIVOST: Session ID se ne regenerira
         $_SESSION['user_id']  = $row['id'];
